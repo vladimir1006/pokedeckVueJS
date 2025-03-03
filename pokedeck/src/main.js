@@ -2,13 +2,18 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import {createWebHistory, createRouter} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import Cards from './components/Cards.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import Decks from './components/Decks.vue'
+import Deck from './components/Deck.vue'
 
 const routes = [
     {path: '/', component: App},
-    {path: '/cards', component: TheWelcome},
-    {path: '/decks', component: TheWelcome},
+    {path: '/cards', component: Cards},
+    {path: '/decks', component: Decks},
+    {path: '/decks/:id', component: Deck},
+    {path: '/booster', component: TheWelcome},
 ]
 
 const router = createRouter({

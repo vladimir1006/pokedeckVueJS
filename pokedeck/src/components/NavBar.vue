@@ -9,4 +9,22 @@
         <RouterLink to="/decks">My Decks</RouterLink>
         <RouterLink to="/booster">Open a booster</RouterLink>
     </nav>  
+    <main>
+      <RouterView />
+    </main>
 </template>
+
+<style scoped>
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: 100vh;
+        width: 200px;
+        top: 0;
+        left: 0;
+        background-color: black;
+        position: fixed;
+    }
+</style>

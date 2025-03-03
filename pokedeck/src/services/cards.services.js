@@ -1,5 +1,10 @@
 import { API_URL_CARDS } from "@/consts";
-export function getCards() {
-  return fetch(`${API_URL_CARDS}`)
-    .then((response) => response.json())
+export async function getCards() {
+  const response = await fetch(API_URL_CARDS);
+  const json = await response.json();
+  const cards = [];
+  json.forEach((a) => {
+      cards.push(a);
+  })
+  return cards;
 }
