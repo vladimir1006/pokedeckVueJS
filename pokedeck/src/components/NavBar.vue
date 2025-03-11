@@ -9,9 +9,6 @@
         <RouterLink to="/decks">My Decks</RouterLink>
         <RouterLink to="/booster">Open a booster</RouterLink>
     </nav>  
-    <main>
-      <RouterView />
-    </main>
 </template>
 
 <style scoped>
