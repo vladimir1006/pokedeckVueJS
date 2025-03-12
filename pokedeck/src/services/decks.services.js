@@ -18,3 +18,13 @@ export async function getDeck(id) {
         }
     }
 }   
+
+export async function addDeckAPI(deck){
+    fetch(API_URL_DECKS,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            },
+    body: JSON.stringify(deck)
+    }).then()
+}

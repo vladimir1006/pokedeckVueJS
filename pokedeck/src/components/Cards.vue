@@ -1,11 +1,11 @@
 <script setup>    
     import { getCards } from '@/services/cards.services';
-    
     import { ref } from 'vue';
     import CardTemplate from './CardTemplate.vue';
     const cards = ref([]);
     getCards(0,10).then((data) => {
         cards.value = data;
+        console.log(data)
     });
     console.log(cards.value);
 </script>

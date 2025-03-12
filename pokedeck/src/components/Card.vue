@@ -24,6 +24,6 @@ getCardById(route.params.id).then( data => {
         <li v-for="type in card.types" :key="type">{{ type }}</li>
     </ul>
     
-    <img :src="`${card.image}/high.png`"/>
+    <img :src="`${card.image}/low.png`"/>
 
 </template>
