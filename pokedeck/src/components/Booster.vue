@@ -1,9 +1,13 @@
 <script setup>
 import { ref,onMounted } from 'vue';
-import { getBoosters } from '@/booster.services';
+import { getBoosters } from '@/services/booster.services';
 import { randomCard } from '@/utils';
+import CardTemplate from './CardTemplate.vue';
+import { getCardById } from '@/services/cards.services';
+
 const boosters = ref()
-let card = []
+const card = ref("")
+
 getBoosters().then(ele => {
     boosters.value = ele
 })
@@ -15,11 +19,25 @@ async function fetchBoosters() {
 }
 
 function logCards() {
+    const cardsDictionary = ref({});
     boosters.value.forEach(booster => {
-        console.log(`Booster: ${booster.name}`)
-        booster.cards.forEach(card => {
-            console.log(`- ${card}`)
-        })
+        cardsDictionary[booster.name] = booster.cards;
+    });
+}
+
+function getCardsBooster(id){
+    console.log(id);
+    getBoosters().then(res => { 
+        for(let i=0;i < res.length; i++){
+            if(res[i]["id"] == id){
+                console.log(res[i]["cards"])
+                let n = randomCard(res[i]["cards"].length -1) 
+                card.value = res[i]["cards"][n]
+                // getCardById() dans une ref card pour le cardTemplate
+                // <CardTemplate :card=card />
+                console.log(res[i]["cards"][n])
+            }
+        }
     })
 }
 
@@ -28,12 +46,26 @@ onMounted(async () => {
     logCards() 
 })
 
+// TODO : faire le localstorage
 
 
 </script>
 
 <template>
   <ul>
-    <li v-for="booster in boosters">{{ booster }}<button @click="getCardFromBooster">get random card</button></li>
+    <!-- TODO: Create a template for the boosters -->
+    <li v-for="booster in boosters" :key="booster">{{ booster }}
+        <button @click="getCardsBooster(`${booster.id}`)">get random card</button>
+    </li>
   </ul>
+  <div class="result-container">
+    <h3>Result Booster :</h3>
+    <p>{{ card }}</p>
+    </div>
 </template>
+
+<style lang="css" scoped>
+.result-container{
+    border:1px solid red;
+}
+</style>

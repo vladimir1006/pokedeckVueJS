@@ -15,7 +15,6 @@
     <div class="cards-container">
         <CardTemplate v-for="card in cards" :key="card.id" :card="card" />
     </div>
-    
 </template>
 
 
