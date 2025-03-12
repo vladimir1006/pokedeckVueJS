@@ -7,7 +7,8 @@ defineProps(['card']);
 
 <template>
     <RouterLink :to="`/cards/${card.id}`">
-        <h2>{{ card.name }}</h2>
-        <img :src="`${card.image}/low.png`" :alt="card.name" />
+        <!-- j'adore le ternary operator, je lui boufferais bien les pieds... miam -->
+        <h2>{{ card.name ? card.name : 'no card yet' }}</h2>
+        <img :src="card.image ? `${card.image}/low.png` : 'https://placehold.co/245x337?text=X'" :alt="card.name" />
     </RouterLink>
 </template>

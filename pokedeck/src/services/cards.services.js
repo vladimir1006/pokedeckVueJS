@@ -15,3 +15,9 @@ export async function getCardById(id) {
   return json;
 }
 
+
+export async function getCardsWithPagination(end){
+  const response = await fetch("https://api.tcgdex.net/v2/fr/cards?pagination:page=1&pagination:itemsPerPage="+end);
+  const json = await response.json();
+  return json;
+}

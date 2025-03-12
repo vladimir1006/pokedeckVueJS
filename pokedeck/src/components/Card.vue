@@ -1,5 +1,4 @@
 <script setup>    
-import {defineProps} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {getCardById} from '@/services/cards.services';
 import {ref} from 'vue';

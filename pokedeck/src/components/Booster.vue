@@ -4,9 +4,11 @@ import { getBoosters } from '@/services/booster.services';
 import { randomCard } from '@/utils';
 import CardTemplate from './CardTemplate.vue';
 import { getCardById } from '@/services/cards.services';
+import Card from './Card.vue';
 
 const boosters = ref()
-const card = ref("")
+const card2 = ref("")
+const card = ref({id: "", name: "",image: "", types: [] });
 
 getBoosters().then(ele => {
     boosters.value = ele
@@ -32,10 +34,15 @@ function getCardsBooster(id){
             if(res[i]["id"] == id){
                 console.log(res[i]["cards"])
                 let n = randomCard(res[i]["cards"].length -1) 
-                card.value = res[i]["cards"][n]
+                card2.value = res[i]["cards"][n]
+                getCardById(card2.value).then( data => {
+    
+                    card.value = {id: card2.value, name: data.name,image: data.image, types:data.types};
+                    //console.log(data);
+                });
                 // getCardById() dans une ref card pour le cardTemplate
                 // <CardTemplate :card=card />
-                console.log(res[i]["cards"][n])
+                
             }
         }
     })
@@ -54,18 +61,31 @@ onMounted(async () => {
 <template>
   <ul>
     <!-- TODO: Create a template for the boosters -->
-    <li v-for="booster in boosters" :key="booster">{{ booster }}
-        <button @click="getCardsBooster(`${booster.id}`)">get random card</button>
+    <li v-for="booster in boosters" :key="booster" style="list-style-type: none;">
+        <button @click="getCardsBooster(`${booster.id}`)"><img src="../assets/pack.jpeg" class="booster-canva"/></button>
+        <strong>{{ booster.name }}</strong>
     </li>
   </ul>
   <div class="result-container">
-    <h3>Result Booster :</h3>
-    <p>{{ card }}</p>
+    <h2>Result Card :</h2>
+    <CardTemplate :key="card2" :card="card"/>
     </div>
 </template>
 
 <style lang="css" scoped>
+ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .result-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:100px ;
     border:1px solid red;
+}
+.booster-canva{
+    width: 200px;
 }
 </style>
