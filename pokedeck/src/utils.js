@@ -3,3 +3,8 @@ export function randomId(min= 1,max=10){
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export function randomCard(max){
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max + 1));
+}

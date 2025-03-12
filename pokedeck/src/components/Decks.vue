@@ -18,6 +18,7 @@
             errorMessage.value = "The name must not be empty"
             return;
         }
+        // TODO: FAIRE AVEC AJOUT DE CARDS DANS LE FORM 
         const deck = {idUser:  randomId(), name: name.value, cards:[]};
         addDeckAPI(deck)
         name.value = ""
