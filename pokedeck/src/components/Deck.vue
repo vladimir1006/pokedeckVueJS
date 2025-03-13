@@ -8,7 +8,7 @@
     console.log(id);
     const name = ref("");
     const cards = ref([])
-    const cardDico = [];
+    const cardDico = ref([]);
     getDeck(id).then(response => {
         
         name.value = response.name;
@@ -17,15 +17,10 @@
         cards.value = response.cards;
         for(let i = 0; i < response.cards.length; i++){
             getCardById(response.cards[i]).then(ele =>{
-                cardDico.push(ele)
+                cardDico.value.push(ele)
             })
-            //console.log(response.cards[i])
+            console.log(response.cards[i])
         }
-        //console.log(cardDico)
-        
-        //console.log(cards)
-        //cards.push(response.cards);
-        //console.log(cards);
     });
 
     

@@ -16,6 +16,6 @@ header{
 width: 200px;
 }
 main{
-  width: 1000px;
+  width: 1000px;  
 }
 </style>

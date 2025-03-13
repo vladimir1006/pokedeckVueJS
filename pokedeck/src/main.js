@@ -8,9 +8,10 @@ import Card from './components/Card.vue'
 import Decks from './components/Decks.vue'
 import Deck from './components/Deck.vue'
 import Booster from './components/Booster.vue'
+import Home from './components/Home.vue'
 
 const routes = [
-    {path: '/', component: App},
+    {path: '/', component: Home },
     {path: '/cards', component: Cards},
     {path: '/cards/:id', component: Card},
     {path: '/decks', component: Decks},

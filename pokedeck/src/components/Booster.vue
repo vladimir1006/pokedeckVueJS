@@ -4,11 +4,15 @@ import { getBoosters } from '@/services/booster.services';
 import { randomCard } from '@/utils';
 import CardTemplate from './CardTemplate.vue';
 import { getCardById } from '@/services/cards.services';
-import Card from './Card.vue';
+
 
 const boosters = ref()
 const card2 = ref("")
 const card = ref({id: "", name: "",image: "", types: [] });
+
+// localstorage
+if(!localStorage.getItem("cards"))
+    localStorage.setItem("cards",'{"cards": []}');
 
 getBoosters().then(ele => {
     boosters.value = ele
@@ -28,7 +32,7 @@ function logCards() {
 }
 
 function getCardsBooster(id){
-    console.log(id);
+    //console.log(id);
     getBoosters().then(res => { 
         for(let i=0;i < res.length; i++){
             if(res[i]["id"] == id){
@@ -36,8 +40,8 @@ function getCardsBooster(id){
                 let n = randomCard(res[i]["cards"].length -1) 
                 card2.value = res[i]["cards"][n]
                 getCardById(card2.value).then( data => {
-    
                     card.value = {id: card2.value, name: data.name,image: data.image, types:data.types};
+                    localStorageManager(card.value)
                     //console.log(data);
                 });
                 // getCardById() dans une ref card pour le cardTemplate
@@ -53,12 +57,18 @@ onMounted(async () => {
     logCards() 
 })
 
-// TODO : faire le localstorage
-
-
+// le mettre dans un service/class
+function localStorageManager(card){
+    const cardsLSto = localStorage.getItem("cards")? JSON.parse(localStorage.getItem("cards")) : { cards: [] };
+    if (!cardsLSto.cards.includes(card.id)) {
+        cardsLSto.cards.push(card.id);
+    }
+    localStorage.setItem("cards", JSON.stringify(cardsLSto));
+}
 </script>
 
 <template>
+    <h1>Boosters</h1>
   <ul>
     <!-- TODO: Create a template for the boosters -->
     <li v-for="booster in boosters" :key="booster" style="list-style-type: none;">

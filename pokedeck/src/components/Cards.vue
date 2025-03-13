@@ -1,9 +1,10 @@
 <script setup>    
-    import { getCards, getCardsWithPagination } from '@/services/cards.services';
+    import { getCardsWithPagination } from '@/services/cards.services';
     import { ref,watch } from 'vue';
     import CardTemplate from './CardTemplate.vue';
     const cards = ref([]);
     const numberOfCards = ref("10");
+
 
     // https://api.tcgdex.net/v2/fr/cards?pagination:page=3&pagination:itemsPerPage=10
     
@@ -23,7 +24,7 @@
 
 
 <template>
-
+    <h1>{{ title }}</h1>
     <div class="radio-group">
         <h2>numbers of cards display: </h2>
     <input type="radio" id="val10" name="value" value="10" checked v-model="numberOfCards">
