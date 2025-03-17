@@ -5,7 +5,7 @@
 <template>
     <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/cards">All Cards</RouterLink>
+        <RouterLink to="/cards/p/1">All Cards</RouterLink>
         <RouterLink to="/decks">My Decks</RouterLink>
         <RouterLink to="/booster">Open a booster</RouterLink>
     </nav>  

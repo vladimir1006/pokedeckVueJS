@@ -12,7 +12,7 @@ import Home from './components/Home.vue'
 
 const routes = [
     {path: '/', component: Home },
-    {path: '/cards', component: Cards},
+    {path: '/cards/p/:page', component: Cards},
     {path: '/cards/:id', component: Card},
     {path: '/decks', component: Decks},
     {path: '/decks/:id', component: Deck},

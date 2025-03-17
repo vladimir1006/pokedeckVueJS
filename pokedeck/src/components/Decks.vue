@@ -26,6 +26,9 @@ import { getCardById } from '@/services/cards.services';
 
     const errorMessage = ref("");
 
+
+    // faire deux sections de la page 
+    // pour faire le form avec les images des cartes
     function addDeck(){
         if(!name.value ){
             errorMessage.value = "The name must not be empty"
@@ -35,8 +38,6 @@ import { getCardById } from '@/services/cards.services';
             errorMessage.value = "You must select atleast one card."
             return;
         }
-
-        // TODO: FAIRE AVEC AJOUT DE CARDS DANS LE FORM 
         const deck = {idUser:  randomId(), name: name.value, cards:selectedCards.value};
         addDeckAPI(deck)
         name.value = ""

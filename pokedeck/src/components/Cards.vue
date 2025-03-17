@@ -1,22 +1,46 @@
 <script setup>    
     import { getCardsWithPagination } from '@/services/cards.services';
     import { ref,watch } from 'vue';
+    import { useRoute,useRouter } from 'vue-router';
     import CardTemplate from './CardTemplate.vue';
     const cards = ref([]);
-    const numberOfCards = ref("10");
+    const route = useRoute();
+    const router = useRouter();
 
+    const page = ref(route.params.page);
 
-    // https://api.tcgdex.net/v2/fr/cards?pagination:page=3&pagination:itemsPerPage=10
-    
-    getCardsWithPagination(numberOfCards.value).then((data) => {
+    const numberOfCards = ref(localStorage.getItem("nbCards") != null ? localStorage.getItem("nbCards") : 10);
+
+    // console.log(localStorage.getItem("nbCards"))
+    // console.log(numberOfCards.value)
+    // console.log(route.params.page)
+
+    getCardsWithPagination(localStorage.getItem("nbCards"), route.params.page).then((data) => {
         cards.value = data;
-        console.log(numberOfCards.value)
+        console.log(numberOfCards)
     });
     console.log(cards.value);
 
+    function gotonextpage(){
+        page.value = Number(page.value) + 1;
+        router.push(`/cards/p/${page.value}`);
+    }
+
+    function gotobackpage(){
+        if(page.value > 1 ){
+            page.value = Number(page.value) - 1;
+            router.push(`/cards/p/${page.value}`);
+        }
+    }
 
     watch(numberOfCards, async (newValue) => {
-        const data = await getCardsWithPagination(newValue);
+        const data = await getCardsWithPagination(newValue, route.params.page);
+        localStorage.setItem("nbCards",newValue)
+        cards.value = data;
+    });
+
+    watch(page, async (newValue) => {
+        const data = await getCardsWithPagination(localStorage.getItem("nbCards"), newValue);
         cards.value = data;
     });
 
@@ -25,19 +49,17 @@
 
 <template>
     <h1>{{ title }}</h1>
-    <div class="radio-group">
-        <h2>numbers of cards display: </h2>
-    <input type="radio" id="val10" name="value" value="10" checked v-model="numberOfCards">
-    <label for="val10">10</label>
-    <input type="radio" id="val25" name="value" value="25" v-model="numberOfCards">
-    <label for="val25">25</label>
-    <input type="radio" id="val50" name="value" value="50" v-model="numberOfCards">
-    <label for="val50">50</label>
-    </div>
+    <button @click="gotobackpage"><</button>
+    <select name="" id="" v-model="numberOfCards">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+    </select>
+    <button @click="gotonextpage">></button>
+
     <div class="cards-container">
         <CardTemplate v-for="card in cards" :key="card.id" :card="card" />
     </div>
-
 
 </template>
 
@@ -47,6 +69,7 @@
     .cards-container {
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-around;
     }
     .card {
         display: flex;
@@ -57,29 +80,23 @@
         border: 1px solid red;
         border-radius: 5px;
     }
-    .radio-group {
-            display: flex;
-            justify-content: start;
-            gap: 20px;
-            margin-top: 10px;
-            margin-bottom: 10%;
-        }
-
-        input[type="radio"] {
-            display: none;
-        }
-
-        label {
-            font-size: 18px;
-            padding: 10px 20px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        input[type="radio"]:checked + label {
-            background: #007bff;
-            color: white;
-        }
+    
+    select {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin: 0 10px;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
 </style>
