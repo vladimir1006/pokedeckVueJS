@@ -10,12 +10,9 @@
     const page = ref(route.params.page);
 
     const numberOfCards = ref(localStorage.getItem("nbCards") != null ? localStorage.getItem("nbCards") : 10);
+    
 
-    // console.log(localStorage.getItem("nbCards"))
-    // console.log(numberOfCards.value)
-    // console.log(route.params.page)
-
-    getCardsWithPagination(localStorage.getItem("nbCards"), route.params.page).then((data) => {
+    getCardsWithPagination(numberOfCards.value, route.params.page).then((data) => {
         cards.value = data;
         console.log(numberOfCards)
     });
@@ -39,8 +36,9 @@
         cards.value = data;
     });
 
+    
     watch(page, async (newValue) => {
-        const data = await getCardsWithPagination(localStorage.getItem("nbCards"), newValue);
+        const data = await getCardsWithPagination(numberOfCards.value, newValue);
         cards.value = data;
     });
 
@@ -48,19 +46,17 @@
 
 
 <template>
-    <h1>{{ title }}</h1>
-    <button @click="gotobackpage"><</button>
+    <button @click="gotobackpage">&lt;</button>
     <select name="" id="" v-model="numberOfCards">
         <option value="10">10</option>
         <option value="25">25</option>
         <option value="50">50</option>
     </select>
-    <button @click="gotonextpage">></button>
+    <button @click="gotonextpage">&gt;</button>
 
     <div class="cards-container">
         <CardTemplate v-for="card in cards" :key="card.id" :card="card" />
     </div>
-
 </template>
 
 

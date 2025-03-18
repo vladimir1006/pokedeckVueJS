@@ -3,7 +3,8 @@
     import { ref } from 'vue';
     import { RouterLink } from 'vue-router';
     import { randomId } from '@/utils';
-import { getCardById } from '@/services/cards.services';
+    import { getCardById } from '@/services/cards.services';
+
     const decks = ref([]);
     getDecks().then(response => {
         decks.value = response;
@@ -19,13 +20,12 @@ import { getCardById } from '@/services/cards.services';
 
     cards.value.cards.forEach(c => {
         getCardById(c).then(card =>{
-            nameCards.value.push({id: card.id, name: card.name})
+            nameCards.value.push({id: card.id, name: card.name, image: card.image})
         })
     })
-
+    
 
     const errorMessage = ref("");
-
 
     // faire deux sections de la page 
     // pour faire le form avec les images des cartes
@@ -49,16 +49,17 @@ import { getCardById } from '@/services/cards.services';
 
 <template>
     <div class="main">
-    <div class="decks">
+    <div class="form-deck">
         <form @submit.prevent="addDeck">
         <input type="text" v-model="name" placeholder="name">
         <div v-for="card in nameCards" :key="card">
             <input type="checkbox" :value="card.id" v-model="selectedCards"> {{ card.name }}
+            <img :src="card.image ? `${card.image}/low.png` : 'https://placehold.co/245x337?text=X'" :alt="card.name" />
         </div>
         <button type="submit">Add Deck</button>
         <p style="color:red;">{{ errorMessage }}</p>
     </form>
-    <div v-for="deck in decks" :key="deck.id" class="deck">
+    <div v-for="deck in decks" :key="deck.id" class="decks">
         <RouterLink :to="`/decks/${deck.id}`">
             <h3>{{ deck.name }}</h3>
         </RouterLink>

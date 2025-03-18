@@ -1,23 +1,20 @@
 <script setup>
-    import {ref } from "vue";
+    import {ref, watch } from "vue";
     import CardTemplate from "./CardTemplate.vue";
     import { getCardById } from "@/services/cards.services";
 
-    const localStoCards = ref({});
     const cards = ref([]);
     const card = ref({id: "", name: "",image: "", types: [] });
-    // mettre les id en indice 
-    
-    // éviter les undefined
-    // vraiment le ternary je t'aime
-    localStoCards.value =localStorage.getItem("cards") ? JSON.parse(localStorage.getItem("cards")) : {cards : []};
 
-    // pour pas que l'affichage du home soit vide
-    if(localStoCards.value.cards.length == 0) {
+    const searchCard = ref("");
+
+    if(JSON.parse(localStorage.getItem("cards")).cards.length == 0) {
+        // éviter que l'affichage soit vide 
         cards.value.push(card.value)
     }
     else{
-        localStoCards.value.cards.forEach(element => {
+        
+        JSON.parse(localStorage.getItem("cards")).cards.forEach(element => {
         getCardById(element).then( r => {
             card.value = {id: r.id, name: r.name,image: r.image, types:r.types};
             cards.value.push(card.value)
@@ -25,20 +22,32 @@
         )    
     });
     }
+
+    // ca marche pas 
+    function searchCards(){ 
+        cards.value = []
+        JSON.parse(localStorage.getItem("cards")).cards.forEach(element => {
+        getCardById(element).then( r => {
+            if(r.name.toLowerCase().includes(searchCard.value.toLowerCase()) || r.id.toLowerCase().includes(searchCard.value.toLowerCase())){
+                card.value = {id: r.id, name: r.name,image: r.image, types:r.types};
+                cards.value.push(card.value)
+            }
+        }
+        )    
+    });
+    }
     
-    // A SUPPRIMER
-    // QUESTIONS PROFS A DEMANDER PENDANT LE COUR:
-    
-    // reformuler la question 2 à propos des h1 et des liens libéllé
-
-
-
 </script>
 
 <template>
+    <input type="text" class="search-box" placeholder="Rechercher des cartes..." v-model="searchCard">
+    <button class="search-button" @click="searchCards">🔍</button>
     <h2>Cards win in boosters : </h2>
-    <div class="main"> 
+    <div class="main" v-if="cards.length != 0">
         <CardTemplate v-for="card in cards" v-bind:key="card" :card="card"/>
+    </div>
+    <div class="main" v-else>
+        <p style="color: red;">cliquez à nouveau sur la loupe avec la barre de recherche vide pour revoir vos cartes :) </p>
     </div>
 </template>
 
@@ -48,4 +57,31 @@
     flex-wrap: wrap;
     gap: 10px;
 }
+.search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .search-box {
+            width: 300px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
 </style>
