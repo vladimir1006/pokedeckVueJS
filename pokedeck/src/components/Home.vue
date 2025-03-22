@@ -23,7 +23,6 @@
     });
     }
 
-    // ca marche pas 
     function searchCards(){ 
         cards.value = []
         JSON.parse(localStorage.getItem("cards")).cards.forEach(element => {
@@ -44,10 +43,10 @@
     <button class="search-button" @click="searchCards">🔍</button>
     <h2>Cards win in boosters : </h2>
     <div class="main" v-if="cards.length != 0">
-        <CardTemplate v-for="card in cards" v-bind:key="card" :card="card"/>
+        <CardTemplate v-for="card in cards" v-bind:key="card" :card="card" />
     </div>
     <div class="main" v-else>
-        <p style="color: red;">cliquez à nouveau sur la loupe avec la barre de recherche vide pour revoir vos cartes :) </p>
+        <h3 style="color: red;">Il ne semble pas avoir de cartes correspondant à ce nom/id : <strong>{{ searchCard }}</strong></h3>
     </div>
 </template>
 
@@ -58,30 +57,28 @@
     gap: 10px;
 }
 .search-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 50px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+.search-box {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.search-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.search-button:hover {
+    background-color: #0056b3;
+}
 
-        .search-box {
-            width: 300px;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .search-button {
-            padding: 10px 15px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .search-button:hover {
-            background-color: #0056b3;
-        }
 </style>

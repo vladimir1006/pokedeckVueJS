@@ -22,3 +22,4 @@ export async function getCardsWithPagination(end,page){
   const json = await response.json();
   return json;
 }
+

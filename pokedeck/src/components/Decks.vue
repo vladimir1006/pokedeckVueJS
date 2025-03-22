@@ -58,7 +58,7 @@
         </div>
         <button type="submit">Add Deck</button>
         <p style="color:red;">{{ errorMessage }}</p>
-    </form>
+        </form>
     <div v-for="deck in decks" :key="deck.id" class="decks">
         <RouterLink :to="`/decks/${deck.id}`">
             <h3>{{ deck.name }}</h3>

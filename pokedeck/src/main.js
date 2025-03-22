@@ -9,6 +9,7 @@ import Decks from './components/Decks.vue'
 import Deck from './components/Deck.vue'
 import Booster from './components/Booster.vue'
 import Home from './components/Home.vue'
+import Trade from './components/Trade.vue'
 
 const routes = [
     {path: '/', component: Home },
@@ -17,6 +18,7 @@ const routes = [
     {path: '/decks', component: Decks},
     {path: '/decks/:id', component: Deck},
     {path: '/booster', component: Booster},
+    {path: "/trade", component: Trade}
 ]
 
 const router = createRouter({
