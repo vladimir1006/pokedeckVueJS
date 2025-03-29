@@ -6,6 +6,7 @@ defineProps(['card', 'disableLink']);
 
 
 <template>
+    <!-- pour éviter les redirections-->
     <div v-if="disableLink" class="card">
         <h2>{{ card.name ? card.name : 'no card yet' }}</h2>
         <img :src="card.image ? `${card.image}/low.png` : 'https://placehold.co/245x337?text=X'" :alt="card.name" />

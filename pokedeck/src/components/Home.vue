@@ -1,5 +1,5 @@
 <script setup>
-    import {ref, watch } from "vue";
+    import {ref } from "vue";
     import CardTemplate from "./CardTemplate.vue";
     import { getCardById } from "@/services/cards.services";
 
@@ -8,8 +8,12 @@
 
     const searchCard = ref("");
 
+    
+    if(localStorage.getItem("cards") == null){
+        localStorage.setItem("cards", '{"cards":[]}')
+    }
+
     if(JSON.parse(localStorage.getItem("cards")).cards.length == 0) {
-        // éviter que l'affichage soit vide 
         cards.value.push(card.value)
     }
     else{
@@ -39,6 +43,7 @@
 </script>
 
 <template>
+    <h1>Cards : </h1>
     <input type="text" class="search-box" placeholder="Rechercher des cartes..." v-model="searchCard">
     <button class="search-button" @click="searchCards">🔍</button>
     <h2>Cards win in boosters : </h2>
